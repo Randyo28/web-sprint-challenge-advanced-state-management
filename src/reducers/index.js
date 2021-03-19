@@ -1,41 +1,50 @@
-import { FETCH_SMURFS_START, FETCH_SMURFS_SUCCESS, FETCH_SMURFS_ERROR } from '../actions'
+import { FETCH_SMURFS_START, FETCH_SMURFS_SUCCESS, FETCH_SMURFS_ERROR, ADD_SMURF, SET_ERROR } from '../actions'
 
-export const initialState = {
-    smurfs: [
-        // {
-        //         id:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-        //         name:'Poppa Smurf',
-        //         position:'Village Leader',
-        //         nickname: 'Pops',
-        //         description: 'Papa is the practical village leader and the father figure of 100 or so young Smurfs. He is easily identified by his red Smurf hat, pants, and a shortly-trimmed white beard and moustache.'
-        //     }
-    ],
+export const initialState = { // Initial States for my project
+    smurfs: [],
     isLoading: false,
     error: '',
 }
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case FETCH_SMURFS_START:
+        case FETCH_SMURFS_START: //On start loading is true with no smurf data
             return {
                 ...state,
                 smurfs: [],
                 isLoading: true,
                 error: ''
             }
-        case FETCH_SMURFS_SUCCESS:
+        case FETCH_SMURFS_SUCCESS: //on success I have smurfs data and loading is false
             return {
                 ...state,
                 smurfs: action.payload,
                 isLoading: false,
                 error: ''
             }
-        case FETCH_SMURFS_ERROR:
+        case FETCH_SMURFS_ERROR: //on fail I get a error message
             return {
                 ...state,
                 smurfs: [],
                 isLoading: false,
                 error: action.payload
+            }
+        case ADD_SMURF: //On form submit I will get a new smurf data
+            return {
+                ...state,
+                smurfs: [
+                    ...state.smurfs,
+                    action.payload
+                  ],
+                isLoading: false,
+                error: ''
+            }
+        case SET_ERROR: //If form is not complete error message will show
+            return {
+                ...state,
+                error: action.payload,
+                smurfs: [],
+                isLoading: false
             }
         default:
             return state

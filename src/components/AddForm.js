@@ -1,28 +1,41 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addNewSmurf, setError } from '../actions'
 
-const AddForm = (props) => {
-    const [state, setState] = useState({
+const AddForm = () => {
+
+    const error = useSelector(state => state.error) //useSelector hook just for error global state
+
+    const dispatch = useDispatch() // dispatch to call my action creator
+
+
+    const [state, setState] = useState({ //form state
         name:"",
         position:"",
         nickname:"",
         description:""
     });
 
-    const handleChange = e => {
+    
+    const handleChange = e => { //setting inputed values to form state
         setState({
             ...state,
             [e.target.name]:e.target.value
         });
     }
 
+    //if no input filled error message appears else new smurf data is submitted
     const handleSubmit = e => {
         e.preventDefault();
-        if (state.name === "" || state.position === "" || state.nickname === "") {
-            errorMessage = "Name, position and nickname fields are required.";
+        if (state.name === "" || state.position === "" || state.nickname === "") { 
+            dispatch(setError("Name, position and nickname fields are required.")); 
+        } else {                                                                 
+            dispatch(addNewSmurf(state)) //
         }
     }
 
-    const errorMessage = "";
+    //dummy error message
+    //  const error = "";
 
     return(<section>
         <h2>Add Smurf</h2>
@@ -44,7 +57,7 @@ const AddForm = (props) => {
                 <textarea onChange={handleChange} value={state.description} name="description" id="description" />
             </div>
             {
-                errorMessage && <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: {errorMessage}</div>
+                error && <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: {error}</div>
             }
             <button>Submit Smurf</button>
         </form>

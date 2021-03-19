@@ -6,8 +6,15 @@ import Header from './components/Header';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
+import { fetchSmurfData } from './actions'
+import { connect } from 'react-redux'
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.fetchSmurfData() // fetchSmurf action needs to be rendered on mount using this.props
+  }
+
   render() {
     return (
       <div className="App">
@@ -22,7 +29,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(null, {fetchSmurfData})(App); //connected fetchSmurfData action to App.js no need for state
 
 //Task List:
 //1. Connect the fetchSmurfs actions to the App component.

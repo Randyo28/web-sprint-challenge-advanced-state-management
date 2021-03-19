@@ -1,28 +1,20 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react';
+import { useSelector } from 'react-redux'
 import Smurf from './Smurf';
-import { fetchSmurfData } from '../actions/'
 
  const SmurfList = ()=> {
 
-    const {smurfs, isLoading } = useSelector(state => state)
-
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(fetchSmurfData())
-    },[dispatch])
+    const {smurfs, isLoading } = useSelector(state => state) //useSelector hook is holding my states
     
-
     if (isLoading) {
-        return <h1>Loading...</h1>;
+        return <h1>Loading...</h1>; //loading will be true on render until data is fetched
     }
 
     return(
     <div className="listContainer">
         {smurfs.map(smurf => {
             return (
-                <Smurf smurf={smurf}/>
+                <Smurf smurf={smurf}/> //Mapped over smurfs state with data to make component for each object
             )
         })}
     </div>);

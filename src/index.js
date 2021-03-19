@@ -10,14 +10,14 @@ import App from "./App";
 
 import reducer from './reducers'
 
-const store = createStore(reducer, applyMiddleware(thunk, logger))
+const store = createStore(reducer, applyMiddleware(thunk, logger)) 
 
 const { worker } = require('./mocks/browser');
 worker.start();
 
 const rootElement = document.getElementById("root");
 
-ReactDOM.render(
+ReactDOM.render( //store is passed in as prop to Provider holding our reducer and middleware
     <Provider store={store}>
         <App />
     </Provider>, 
